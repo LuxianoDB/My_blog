@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Blog</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <%- include('header') %>
+    <h1>Última Publicación</h1>
+    <% if (post) { %>
+      <div class="post">
+        <h3><%= post.title %></h3>
+        <p><%= post.content %></p>
+        <small>Publicado el <%= post.created_at %></small>
+      </div>
+    <% } else { %>
+      <p>No hay publicaciones aún.</p>
+    <% } %>
+  </div>
+</body>
+</html>

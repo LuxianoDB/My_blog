@@ -1,0 +1,165 @@
+/* Estilos generales para el modo oscuro */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+}
+
+h1 {
+  text-align: center;
+  color: #e0e0e0; /* Texto claro */
+  padding: 20px;
+}
+
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #1e1e1e; /* Fondo más oscuro para los contenedores */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
+input[type="text"], textarea, input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333; /* Borde oscuro */
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  background-color: #222; /* Fondo oscuro para inputs y textarea */
+  color: #e0e0e0; /* Texto claro en inputs */
+}
+
+input[type="submit"] {
+  background-color: #007bff; /* Azul brillante */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+}
+
+h2 {
+  color: #e0e0e0; /* Texto claro */
+  margin-bottom: 20px;
+}
+
+.post {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #333; /* Borde oscuro */
+  border-radius: 4px;
+  background-color: #1e1e1e; /* Fondo oscuro para las publicaciones */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.post h3 {
+  margin-top: 0;
+  color: #e0e0e0; /* Texto claro */
+}
+
+.post small {
+  display: block;
+  color: #888; /* Texto más claro para la fecha */
+  margin-top: 10px;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+  background-color: #1f1f1f; /* Fondo oscuro */
+  overflow: hidden;
+  color: #e0e0e0; /* Texto claro */
+  padding: 10px;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #e0e0e0; /* Texto claro */
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #333; /* Fondo al pasar el ratón */
+  color: #ffffff; /* Texto claro */
+}
+
+/* Estilos para el dropdown */
+.dropdown {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #1f1f1f; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.dropbtn .profile-pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #2c2c2c; /* Fondo más claro que el del dropdown */
+  min-width: 160px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.dropdown-content button {
+  background-color: #1f1f1f; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+  border: none;
+  padding: 12px 16px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.dropdown-content button:hover {
+  background-color: #333; /* Fondo más oscuro al pasar el ratón */
+  color: #ffffff; /* Texto claro */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+a{
+  color: white;
+}
+
+nav a{
+  margin-left: 0.5rem;
+}

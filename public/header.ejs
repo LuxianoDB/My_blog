@@ -1,0 +1,20 @@
+<nav>
+    <a href="/">Inicio</a>
+    <a href="/posts">Todas las Publicaciones</a>
+    <% if (user) { %>
+        <% if (user.is_moderator) { %>
+            <a href="/admin">Panel de Administración</a>
+        <% } %>
+        <div class="dropdown">
+          <button class="dropbtn"><img src="/profile-picture/<%= user.id %>" alt="Foto de perfil" class="profile-pic"><span><%= user.username %></span></button>
+          <div class="dropdown-content">
+              <form action="/logout" method="post">
+                  <button type="submit">Cerrar sesión</button>
+              </form>
+              <a href="/configurar-perfil">Configurar perfil</a>
+          </div>
+        </div>
+    <% } else { %>
+        <a href="/login" class="dropdown">Iniciar sesión</a>
+    <% } %>
+</nav>
