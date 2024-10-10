@@ -11,21 +11,37 @@
     <%- include('header') %>
     <h1>Panel de Administración</h1>
     <h2>Crear Publicación</h2>
-    <form action="/create-post" method="POST">
+    <form action="/create-post" method="POST" enctype="multipart/form-data">
       <input type="text" name="title" placeholder="Título" required>
-      <textarea name="content" placeholder="Contenido" required></textarea>
-      <button type="submit">Crear</button>
+      <textarea name="content" placeholder="Contenido del post" required></textarea>
+      <input type="file" name="image" accept="image/*">
+      <br>
+      <button type="submit">Publicar</button>
     </form>
+    
     <h2>Publicaciones</h2>
     <% if (posts.length > 0) { %>
       <% posts.forEach(post => { %>
         <div class="post">
           <h3><%= post.title %></h3>
           <p><%= post.content %></p>
-          <form action="/edit-post/<%= post.id %>" method="POST">
+          <% if (post.image) { %>
+            <!-- Mostrar imagen del post si existe -->
+            <img src="data:image/png;base64,<%= post.image.toString('base64') %>" alt="Imagen del post" class="preview-image">
+          <% } %>
+          <form action="/edit-post/<%= post.id %>" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" value="<%= post.title %>" required>
             <textarea name="content" required><%= post.content %></textarea>
-            <button type="submit">Editar</button>
+            <% if (post.image) { %>
+              <label>
+                <input type="checkbox" name="remove_image"> Eliminar imagen actual
+                <br>
+              </label>
+            <% } %>
+          
+            <input type="file" name="image" accept="image/*">
+            <br>
+            <button type="submit">Guardar</button>
           </form>
           <form action="/delete-post/<%= post.id %>" method="POST" style="display:inline;">
             <button type="submit">Eliminar</button>

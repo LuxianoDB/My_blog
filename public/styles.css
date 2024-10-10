@@ -163,3 +163,17 @@ a{
 nav a{
   margin-left: 0.5rem;
 }
+
+.post-image{
+  max-width:100%;
+}
+
+.comment-image{
+  max-width:40rem;
+  max-height:40rem;
+}
+
+.preview-image{
+  max-width:10rem;
+  max-height:10rem;
+}

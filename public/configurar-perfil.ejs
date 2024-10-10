@@ -7,19 +7,20 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h2>Configurar Perfil</h2>
+    <div class="container">
+        <h2>Configurar Perfil</h2>
 
-    <form action="/configurar-perfil" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="username">Nombre de usuario:</label>
-            <input type="text" id="username" name="username" value="<%= user.username %>" required>
-        </div>
-        <div>
-            <label for="profile_picture">Cambiar imagen de perfil:</label>
-            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-        </div>
-        <button type="submit">Guardar cambios</button>
-    </form>
-
+        <form action="/configurar-perfil" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" value="<%= user.username %>" required>
+            </div>
+            <div>
+                <label for="profile_picture">Cambiar imagen de perfil:</label>
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+            </div>
+            <button type="submit">Guardar cambios</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -34,26 +34,29 @@ const initDatabase = () => {
 
       const createPostsTable = `
         CREATE TABLE IF NOT EXISTS posts (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          title VARCHAR(255) NOT NULL,
-          content TEXT NOT NULL,
-          user_id INT,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-      `;
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        image LONGBLOB,
+        user_id INT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+      )
+    `;
 
-      const createCommentsTable = `
+    const createCommentsTable = `
         CREATE TABLE IF NOT EXISTS comments (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          content TEXT NOT NULL,
-          user_id INT,
-          post_id INT,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          FOREIGN KEY (user_id) REFERENCES users(id),
-          FOREIGN KEY (post_id) REFERENCES posts(id)
-        )
-      `;
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        content TEXT NOT NULL,
+        image LONGBLOB,
+        user_id INT,
+        post_id INT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (post_id) REFERENCES posts(id)
+      )
+    `;
+
 
       // Ejecuta las consultas para crear las tablas
       db.query(createUsersTable, (err) => {
@@ -68,6 +71,7 @@ const initDatabase = () => {
             if (err) throw err;
             console.log('Tabla `comments` creada o ya existe.');
             db.end(); // Cierra la conexión
+            
           });
         });
       });

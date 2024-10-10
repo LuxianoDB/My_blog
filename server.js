@@ -82,26 +82,60 @@ app.get('/admin', isAuthenticated, (req, res) => {
 
 app.post('/create-post', isAuthenticated, (req, res) => {
   const { title, content } = req.body;
-  db.query('INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)', [title, content, req.session.user.id], (err) => {
+  let image = null;
+
+  if (req.files && req.files.image) {
+    image = req.files.image.data; // Extraemos los datos binarios de la imagen
+  }
+
+  db.query('INSERT INTO posts (title, content, image, user_id) VALUES (?, ?, ?, ?)', [title, content, image, req.session.user.id], (err) => {
     if (err) throw err;
-    res.redirect('/');
+    res.redirect('/posts');
   });
 });
+
 
 app.post('/edit-post/:id', isAuthenticated, (req, res) => {
-  const { title, content } = req.body;
-  db.query('UPDATE posts SET title = ?, content = ? WHERE id = ? AND user_id = ?', [title, content, req.params.id, req.session.user.id], (err) => {
+  const { title, content, remove_image } = req.body;
+  let query = 'UPDATE posts SET title = ?, content = ? WHERE id = ? AND user_id = ?';
+  let params = [title, content, req.params.id, req.session.user.id];
+  
+  // Si el usuario sube una nueva imagen
+  if (req.files && req.files.image) {
+    const image = req.files.image.data;
+    query = 'UPDATE posts SET title = ?, content = ?, image = ? WHERE id = ? AND user_id = ?';
+    params = [title, content, image, req.params.id, req.session.user.id];
+  }
+
+  // Si se selecciona eliminar la imagen
+  if (remove_image) {
+    query = 'UPDATE posts SET title = ?, content = ?, image = NULL WHERE id = ? AND user_id = ?';
+    params = [title, content, req.params.id, req.session.user.id];
+  }
+
+  db.query(query, params, (err) => {
     if (err) throw err;
-    res.redirect('/');
+    res.redirect('/admin');
   });
 });
 
+
 app.post('/delete-post/:id', isAuthenticated, (req, res) => {
-  db.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [req.params.id, req.session.user.id], (err) => {
+  const postId = req.params.id;
+  const userId = req.session.user.id;
+
+  // Primero eliminar los comentarios asociados al post
+  db.query('DELETE FROM comments WHERE post_id = ?', [postId], (err) => {
     if (err) throw err;
-    res.redirect('/');
+
+    // Después eliminar el post
+    db.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [postId, userId], (err) => {
+      if (err) throw err;
+      res.redirect('/');
+    });
   });
 });
+
 
 app.get('/login', (req, res) => {
   res.render('login');
@@ -190,7 +224,14 @@ app.post('/configurar-perfil', isAuthenticated, (req, res) => {
 
 app.post('/comment/:postId', isAuthenticated, (req, res) => {
   const { content } = req.body;
-  db.query('INSERT INTO comments (content, user_id, post_id) VALUES (?, ?, ?)', [content, req.session.user.id, req.params.postId], (err) => {
+  let image = null;
+
+  // Si hay una imagen adjunta, la guardamos
+  if (req.files && req.files.image) {
+    image = req.files.image.data;
+  }
+
+  db.query('INSERT INTO comments (content, image, user_id, post_id) VALUES (?, ?, ?, ?)', [content, image, req.session.user.id, req.params.postId], (err) => {
     if (err) throw err;
     res.redirect(`/post/${req.params.postId}`);
   });
@@ -199,13 +240,27 @@ app.post('/comment/:postId', isAuthenticated, (req, res) => {
 app.get('/post/:id', (req, res) => {
   db.query('SELECT * FROM posts WHERE id = ?', [req.params.id], (err, postResults) => {
     if (err) throw err;
-    db.query('SELECT * FROM comments JOIN users ON comments.user_id = users.id WHERE post_id = ?', [req.params.id], (err, commentResults) => {
+    
+    if (postResults.length === 0) {
+      return res.status(404).send('Post no encontrado');
+    }
+
+    // Consulta para obtener los comentarios y unir con los usuarios
+    db.query('SELECT comments.*, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE post_id = ?', [req.params.id], (err, commentResults) => {
       if (err) throw err;
-      res.render('post', { post: postResults[0], comments: commentResults, user: req.session.user });
+
+      // Renderizar la página y pasar los datos
+      res.render('post', {
+        post: postResults[0],
+        comments: commentResults,
+        user: req.session.user
+      });
     });
   });
 });
 
-app.listen(port, () => {
-  console.log(`Servidor en http://localhost:${port}`);
-});
+
+
+app.listen(3000, () => {
+  console.log("Corriendo en el puerto 3000")
+})

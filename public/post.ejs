@@ -9,28 +9,48 @@
 <body>
   <div class="container">
     <%- include('header') %>
+
     <h1><%= post.title %></h1>
     <p><%= post.content %></p>
+
+    <% if (post.image) { %>
+      <!-- Mostrar imagen del post si existe -->
+      <img src="data:image/png;base64,<%= post.image.toString('base64') %>" alt="Imagen del post" class="post-image">
+      <br>
+    <% } %>
+
     <small>Publicado el <%= post.created_at %></small>
+
     <% if (user) { %>
-      <form action="/comment/<%= post.id %>" method="POST">
+      <form action="/comment/<%= post.id %>" method="POST" enctype="multipart/form-data">
         <textarea name="content" placeholder="Tu comentario" required></textarea>
+        <input type="file" name="image" accept="image/*">
+        <br>
         <button type="submit">Comentar</button>
       </form>
     <% } %>
+
     <h2>Comentarios</h2>
+
     <% if (comments.length > 0) { %>
       <% comments.forEach(comment => { %>
         <div class="comment">
-          <img src="/profile-picture/<%= comment.id %>" alt="Perfil" width="30" height="30">
+          <img src="/profile-picture/<%= comment.user_id %>" alt="Perfil" width="30" height="30">
           <strong><%= comment.username %></strong>
           <p><%= comment.content %></p>
+
+          <% if (comment.image) { %>
+            <!-- Mostrar imagen del comentario si existe -->
+            <img src="data:image/png;base64,<%= comment.image.toString('base64') %>" alt="Imagen del comentario" class="comment-image">
+          <% } %>
+          <br>
           <small>Publicado el <%= comment.created_at %></small>
         </div>
       <% }) %>
     <% } else { %>
       <p>No hay comentarios aún.</p>
     <% } %>
+
   </div>
 </body>
 </html>
